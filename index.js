@@ -12,7 +12,7 @@ const GITHUB_GRAPHQL_URL = 'https://api.github.com'
 
 const signoff = core.getInput('signoff') || undefined
 
-function getGitHubInput () {
+function getGitHubInput() {
   return {
     fork: getOptionalBooleanInput('fork'),
     defaultBranch: core.getInput('default-branch') || undefined,
@@ -24,21 +24,21 @@ function getGitHubInput () {
   }
 }
 
-function getOptionalBooleanInput (name) {
+function getOptionalBooleanInput(name) {
   if (core.getInput(name) === '') {
     return undefined
   }
   return core.getBooleanInput(name)
 }
 
-function getOptionalMultilineInput (name) {
+function getOptionalMultilineInput(name) {
   if (core.getInput(name) === '') {
     return undefined
   }
   return core.getMultilineInput(name)
 }
 
-function getManifestInput () {
+function getManifestInput() {
   return {
     configFile: core.getInput('config-file') || CONFIG_FILE,
     manifestFile: core.getInput('manifest-file') || MANIFEST_FILE,
@@ -46,7 +46,7 @@ function getManifestInput () {
   }
 }
 
-async function runManifest (command) {
+async function runManifest(command) {
   // Create the Manifest and GitHub instance from
   // argument provided to GitHub action:
   const { fork } = getGitHubInput()
@@ -79,7 +79,7 @@ async function runManifest (command) {
   outputPRs(await manifest.createPullRequests())
 }
 
-async function main () {
+async function main() {
   const command = core.getInput('command') || undefined
   if (MANIFEST_COMMANDS.includes(command)) {
     return await runManifest(command)
@@ -105,7 +105,7 @@ const releasePlease = {
   main
 }
 
-function getGitHubInstance () {
+function getGitHubInstance() {
   const { token, defaultBranch, apiUrl, graphqlUrl, repoUrl, proxyServer } = getGitHubInput()
   const [owner, repo] = repoUrl.split('/')
 
@@ -126,8 +126,9 @@ function getGitHubInstance () {
   return GitHub.create(githubCreateOpts)
 }
 
-async function manifestInstance (github) {
+async function manifestInstance(github) {
   const { fork } = getGitHubInput()
+  const changesBranch = core.getInput("changes-branch") || undefined
   const bumpMinorPreMajor = getOptionalBooleanInput('bump-minor-pre-major')
   const bumpPatchForMinorPreMajor = getOptionalBooleanInput('bump-patch-for-minor-pre-major')
   const monorepoTags = getOptionalBooleanInput('monorepo-tags')
@@ -194,6 +195,7 @@ async function manifestInstance (github) {
       snapshotLabels
     },
     {
+      changesBranch,
       draft,
       signoff,
       fork,
@@ -217,7 +219,7 @@ async function manifestInstance (github) {
   )
 }
 
-function outputReleases (releases) {
+function outputReleases(releases) {
   releases = releases.filter(release => release !== undefined)
   const pathsReleased = []
   if (releases.length) {
@@ -254,7 +256,7 @@ function outputReleases (releases) {
   core.setOutput('paths_released', JSON.stringify(pathsReleased))
 }
 
-function outputPRs (prs) {
+function outputPRs(prs) {
   prs = prs.filter(pr => pr !== undefined)
   if (prs.length) {
     core.setOutput('pr', prs[0])
