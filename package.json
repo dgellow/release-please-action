@@ -26,7 +26,7 @@
   "homepage": "https://github.com/dgellow/release-please-action#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "release-please": "git+https://github.com/dgellow/release-please.git"
+    "release-please": "dgellow/release-please#sam/sta-1963-release-please-fork-release-prs-should-merge-changes-from"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.27.0",
