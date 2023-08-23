@@ -26,7 +26,7 @@
   "homepage": "https://github.com/dgellow/release-please-action#readme",
   "dependencies": {
     "@actions/core": "^1.10.0",
-    "release-please": "dgellow/release-please#3b1619f08743ab396fcd43c65553221cfaaa1323"
+    "release-please": "dgellow/release-please#c976172ace59377ba15490fe5be6c3054a23c149"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.27.0",
